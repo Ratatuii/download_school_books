@@ -3,10 +3,10 @@ import os
 from bs4 import BeautifulSoup as bs
 from fake_useragent import UserAgent
 
-
 URL = 'https://adukar.com/by/news/abiturientu/shkolnye-uchebniki-onlajn-virtualnaya-polka'
 
 ua = UserAgent()
+
 
 def main():
     resp = requests.get(URL, headers={f'User-Agent': ua.random})
@@ -19,7 +19,8 @@ def main():
     for num_class in range(5, 12):
         for item in all_tags_p:
             if item.find('a'):
-                if item.find('a').get('href').split('.')[-1] == 'pdf' and f'{num_class} клас' in item.find('a').find('span').text:
+                if item.find('a').get('href').split('.')[-1] == 'pdf' and f'{num_class} клас' in item.find('a').find(
+                        'span').text:
 
                     dir_name = item.find('a').find('span').text.split(str(num_class))[0].strip()
                     link_book = f"https://adukar.com/images/photo/{item.find('a').get('href').split('/')[-1]}"
@@ -36,6 +37,8 @@ def main():
                         with open(f'school_books/{dir_name}/{name_book}.pdf', 'wb') as file:
                             file.write(response.content)
                         print(f'...........Скачана {name_book}...........')
+
+    print('Программа завершила свою работу.')
 
 
 if __name__ == '__main__':
